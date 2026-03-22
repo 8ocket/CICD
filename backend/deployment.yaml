@@ -17,4 +17,4 @@ spec:
       - name: backend
         image: <JENKINS_FILL_BE_IMAGE_HERE>
         ports:
-        - containerPort: 8080 # 보통 백엔드(Spring/Django 등)는 8080을 많이 써요
+        - containerPort: 8080 
