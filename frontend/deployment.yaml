@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindlog-fe-deployment
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: mindlog-fe
+  template:
+    metadata:
+      labels:
+        app: mindlog-fe
+    spec:
+      containers:
+      - name: frontend
+        image: <여기는_나중에_젠킨스가_ECR_주소를_채워넣을_자리입니다>
+        ports:
+        - containerPort: 80
