@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mindlog-ai-deployment
+  namespace: default
+spec:
+  replicas: 1 # AI 모델은 무거우니까 일단 1대로
+  selector:
+    matchLabels:
+      app: mindlog-ai
+  template:
+    metadata:
+      labels:
+        app: mindlog-ai
+    spec:
+      containers:
+      - name: ai-service
+        image: <JENKINS_FILL_AI_IMAGE_HERE>
+        ports:
+        - containerPort: 5000 #AI 서빙용 포트 들어갈 자리
+        
