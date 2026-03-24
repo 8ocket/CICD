@@ -26,9 +26,9 @@ spec:
         - name: DB_PORT
           value: "5432"
         - name: DB_DATABASE
-          value: "mindlog"
+          value: "mindlog_db"
         - name: DB_USERNAME
-          value: "admin"
+          value: "mindlog"
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
