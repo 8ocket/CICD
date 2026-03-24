@@ -12,10 +12,10 @@ spec:
         ports:
         - containerPort: 8000
         env:
-        - name: DATABASE_URL
-          value: "postgresql://mindlog:password@rds-주소:5432/mindlog_prod"
-        - name: REDIS_URL
-          value: "redis://valkey-주소:6379/0"
+          - name: DATABASE_URL
+            value: "PENDING_RDS_ENDPOINT" # 테라폼 완료 후 수정 예정
+          - name: REDIS_URL
+            value: "PENDING_VALKEY_ENDPOINT"
         # 헬스체크 
         livenessProbe:
           httpGet:
