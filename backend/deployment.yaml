@@ -22,7 +22,7 @@ spec:
         - name: PROFILE
           value: "dev"
         - name: DB_HOST
-          value: "${DB_HOST}"
+          value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
         - name: DB_PORT
           value: "5432"
         - name: DB_DATABASE
