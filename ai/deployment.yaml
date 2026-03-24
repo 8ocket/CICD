@@ -2,23 +2,42 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mindlog-ai-deployment
+  namespace: default
 spec:
   replicas: 1
+  selector:
+    matchLabels:
+      app: mindlog-ai
   template:
+    metadata:
+      labels:
+        app: mindlog-ai
     spec:
       containers:
       - name: ai-api
-        image: <ECR주소>/mindlog-ai:latest # 나중에 주소 교체
+        # TODO: 테라폼 App 파이프라인 완료 후 실제 ECR 주소로 교체
+        image: <ECR주소>/mindlog-ai:latest 
         ports:
         - containerPort: 8000
         env:
-          - name: DATABASE_URL
-            value: "PENDING_RDS_ENDPOINT" # 테라폼 완료 후 수정 예정
-          - name: REDIS_URL
-            value: "PENDING_VALKEY_ENDPOINT"
+        # DB 연결 정보
+        - name: DATABASE_URL
+          value: "postgresql://mindlog:mindlog_password@rds-prod-8ocket.xxxx.ap-northeast-2.rds.amazonaws.com:5432/mindlog_dev"
+        
+        # Redis(Valkey) 연결 정보
+        - name: REDIS_URL
+          value: "redis://valkey-prod-8ocket.xxxx.ap-northeast-2.cache.amazonaws.com:6379/0"
+        
         # 헬스체크 
         livenessProbe:
           httpGet:
             path: /health
             port: 8000
-          initialDelaySeconds: 10
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
