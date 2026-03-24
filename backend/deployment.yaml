@@ -15,32 +15,30 @@ spec:
     spec:
       containers:
       - name: backend
-        # ECR 생성 후 실제 주소로 교체
         image: 8ocket-prod-be-repo:tmp
         ports:
         - containerPort: 8080
-        env: 
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://rds-prod-8ocket.xxxx.ap-northeast-2.rds.amazonaws.com:5432/mindLogDB"
-        - name: SPRING_DATASOURCE_USERNAME
-          value: "admin"
-        - name: SPRING_DATASOURCE_PASSWORD
-          value: "현웅님께_물어볼_비번"
-        - name: SPRING_DATA_REDIS_HOST
-          value: "valkey-prod-8ocket.xxxx.cache.amazonaws.com"
-        - name: SPRING_DATA_REDIS_PORT
+        env:
+        - name: PROFILE
+          value: "dev"
+        - name: DB_HOST
+          value: "rds-prod-8ocket.xxxx.ap-northeast-2.rds.amazonaws.com" #교체 예정
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_DATABASE
+          value: "testdb"
+        - name: DB_USERNAME
+          value: "dbadmin"
+        - name: DB_PASSWORD
+          value: "test1234"
+        - name: REDIS_HOST
+          value: "valkey-prod-8ocket.xxxx.cache.amazonaws.com" #  교체 예정
+        - name: REDIS_PORT
           value: "6379"
-
-        # 헬스체크 
-        livenessProbe: # 앱이 죽었는지 확인
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 60 # 스프링 부팅 시간 고려
-          periodSeconds: 30
-        readinessProbe: # 앱 준비 확인 (트래픽 투입용)
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
+          
+        # OAuth 및 기타 설정 
+        - name: KT_JWT_SECRET
+          value: "kt-cloud-8ocket-mindLog-jwt-secret-key"
+        - name: KAKAO_CLIENT_ID
+          value: "d2332c4b0c4fde2d5d528c56bdc95064"
+        # 필요시 추가 변수 삽입
