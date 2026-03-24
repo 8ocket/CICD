@@ -45,3 +45,17 @@ spec:
           value: "ap-northeast-2"
         - name: BEDROCK_MODEL_ID
           value: "anthropic.claude-haiku-4-5-20251001-v1:0"
+
+        # healtcheck
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 15
+          periodSeconds: 20
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 10
