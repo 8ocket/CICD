@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: ai-api
-        image: <ECR_URL>/mindlog-ai:latest
+        image: ${ECR_URL}/mindlog-ai:latest
         ports:
         - containerPort: 8000
         env:
@@ -27,7 +27,7 @@ spec:
               key: DB_PASSWORD
               
         - name: DATABASE_URL
-          value: "postgresql://dbadmin:$(DB_PASSWORD)@rds:5432/testdb?sslmode=require"
+          value: "postgresql://dbadmin:$(DB_PASSWORD)@${DB_HOST}:5432/testdb?sslmode=require"
         - name: REDIS_URL
           value: "redis://redis:6379/0"
         # AWS Bedrock access
