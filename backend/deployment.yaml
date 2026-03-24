@@ -15,32 +15,33 @@ spec:
     spec:
       containers:
       - name: backend
-        # ECR 생성 후 실제 주소로 교체
-        image: 8ocket-prod-be-repo:tmp
+        image: <ECR_URL>/mindlog-be:latest  # ecr address update needed
         ports:
         - containerPort: 8080
-        env: 
-        - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://rds-prod-8ocket.xxxx.ap-northeast-2.rds.amazonaws.com:5432/mindLogDB"
-        - name: SPRING_DATASOURCE_USERNAME
-          value: "admin"
-        - name: SPRING_DATASOURCE_PASSWORD
-          value: "현웅님께_물어볼_비번"
-        - name: SPRING_DATA_REDIS_HOST
-          value: "valkey-prod-8ocket.xxxx.cache.amazonaws.com"
-        - name: SPRING_DATA_REDIS_PORT
+        env:
+        - name: PROFILE
+          value: "dev"
+        - name: DB_HOST
+          value: "rds" # Service Name or RDS endpoint
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_DATABASE
+          value: "testdb"
+          #
+        - name: DB_USERNAME
+          value: "dbadmin"
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: DB_PASSWORD
+        - name: REDIS_HOST
+          value: "redis"
+        - name: REDIS_PORT
           value: "6379"
-
-        # 헬스체크 
-        livenessProbe: 
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 60 
-          periodSeconds: 30
-        readinessProbe: 
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
+          #
+        - name: KT_JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: KT_JWT_SECRET
