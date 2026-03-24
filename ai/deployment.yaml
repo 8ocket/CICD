@@ -15,29 +15,33 @@ spec:
     spec:
       containers:
       - name: ai-api
-        # TODO: 테라폼 App 파이프라인 완료 후 실제 ECR 주소로 교체
-        image: <ECR주소>/mindlog-ai:latest 
+        image: <ECR_URL>/mindlog-ai:latest
         ports:
         - containerPort: 8000
         env:
-        # DB 연결 정보
+        # 
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: DB_PASSWORD
+              
         - name: DATABASE_URL
-          value: "postgresql://mindlog:mindlog_password@rds-prod-8ocket.xxxx.ap-northeast-2.rds.amazonaws.com:5432/mindlog_dev"
-        
-        # Redis(Valkey) 연결 정보
+          value: "postgresql://dbadmin:$(DB_PASSWORD)@rds:5432/testdb?sslmode=require"
         - name: REDIS_URL
-          value: "redis://valkey-prod-8ocket.xxxx.ap-northeast-2.cache.amazonaws.com:6379/0"
-        
-        # 헬스체크 
-        livenessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 15
-          periodSeconds: 20
-        readinessProbe:
-          httpGet:
-            path: /health
-            port: 8000
-          initialDelaySeconds: 5
-          periodSeconds: 10
+          value: "redis://redis:6379/0"
+        # AWS Bedrock access
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: AWS_SECRET_ACCESS_KEY
+        - name: AWS_REGION
+          value: "ap-northeast-2"
+        - name: BEDROCK_MODEL_ID
+          value: "anthropic.claude-haiku-4-5-20251001-v1:0"
