@@ -15,21 +15,20 @@ spec:
     spec:
       containers:
       - name: backend
-        image: <ECR_URL>/mindlog-be:latest  # ecr address update needed
+        image: ${ECR_URL}/mindlog-be:latest  # ecr address update needed
         ports:
         - containerPort: 8080
         env:
         - name: PROFILE
           value: "dev"
         - name: DB_HOST
-          value: "rds" # Service Name or RDS endpoint
+          value: "${DB_HOST}"
         - name: DB_PORT
-          value: "5432"
+          value: "3306"
         - name: DB_DATABASE
-          value: "testdb"
-          #
+          value: "mindlog"
         - name: DB_USERNAME
-          value: "dbadmin"
+          value: "admin"
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
