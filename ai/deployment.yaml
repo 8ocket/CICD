@@ -2,20 +2,23 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mindlog-ai-deployment
-  namespace: default
 spec:
-  replicas: 1 # AI 모델은 무거우니까 일단 1대로
-  selector:
-    matchLabels:
-      app: mindlog-ai
+  replicas: 1
   template:
-    metadata:
-      labels:
-        app: mindlog-ai
     spec:
       containers:
-      - name: ai-service
-        image: <JENKINS_FILL_AI_IMAGE_HERE>
+      - name: ai-api
+        image: <ECR주소>/mindlog-ai:latest # 나중에 주소 교체
         ports:
-        - containerPort: 5000 #AI 서빙용 포트 들어갈 자리
-        
+        - containerPort: 8000
+        env:
+        - name: DATABASE_URL
+          value: "postgresql://mindlog:password@rds-주소:5432/mindlog_prod"
+        - name: REDIS_URL
+          value: "redis://valkey-주소:6379/0"
+        # 헬스체크 
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 10
