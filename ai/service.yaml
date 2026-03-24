@@ -8,6 +8,6 @@ spec:
     app: mindlog-ai
   ports:
     - protocol: TCP
-      port: 5000
-      targetPort: 5000
+      port: 8000       # 서비스 포트
+      targetPort: 8000 # 파드 포트 (수정!)
   type: ClusterIP
