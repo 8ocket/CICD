@@ -45,3 +45,17 @@ spec:
             secretKeyRef:
               name: mindlog-be-secret
               key: KT_JWT_SECRET
+
+        # healthcheck
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60 #consider spring booting time
+          periodSeconds: 30
+        readinessProbe: 
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
