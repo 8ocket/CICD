@@ -15,6 +15,23 @@ spec:
     spec:
       containers:
       - name: backend
-        image: <JENKINS_FILL_BE_IMAGE_HERE>
+        # ECR 생성 후 아래 주소로 교체 예정
+        image: 8ocket-prod-be-repo:tmp
         ports:
-        - containerPort: 8080 
+        - containerPort: 8080
+        env: 
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:postgresql://rds-prod-8ocket.xxxx.ap-northeast-2.rds.amazonaws.com:5432/mindLogDB"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "admin"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "비번"
+        - name: SPRING_DATA_REDIS_HOST
+          value: "valkey-prod-8ocket.xxxx.cache.amazonaws.com"
+        # 헬스체크 
+        livenessProbe:
+          httpGet:
+            path: /actuator/health
+            port: 8080
+          initialDelaySeconds: 60
+          periodSeconds: 30
