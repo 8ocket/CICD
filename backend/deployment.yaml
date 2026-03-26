@@ -40,6 +40,8 @@ spec:
         # Redis 설정
         - name: REDIS_DEV_HOST
           value: "${REDIS_ENDPOINT}"
+        - name: SPRING_DATA_REDIS_HOST  # 이 줄을 추가
+          value: "${REDIS_ENDPOINT}"    # 이 줄도 추가
         - name: REDIS_DEV_PORT
           value: "6379"
           
