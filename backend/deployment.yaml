@@ -16,34 +16,44 @@ spec:
     spec:
       containers:
       - name: backend
-        image: \${ECR_URL}/mindlog-be:latest
+        image: ${ECR_URL}/mindlog-be:latest
         ports:
         - containerPort: 8080
         env:
         - name: PROFILE
           value: "dev"
-        - name: DB_HOST
-          value: "\${DB_HOST}"
-        - name: DB_PORT
+          
+        - name: DB_DEV_HOST
+          value: "${RDS_ENDPOINT}"
+        - name: DB_DEV_PORT
           value: "5432"
-        - name: DB_DATABASE
+        - name: DB_DEV_DATABASE
           value: "mindlog_db"
-        - name: DB_USERNAME
+        - name: DB_DEV_USERNAME
           value: "mindlog"
-        - name: DB_PASSWORD
+        - name: DB_DEV_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mindlog-be-secret
               key: DB_PASSWORD
-        - name: REDIS_HOST
-          value: "\${REDIS_HOST}"
-        - name: REDIS_PORT
+              
+        # Redis 설정
+        - name: REDIS_DEV_HOST
+          value: "${REDIS_ENDPOINT}"
+        - name: REDIS_DEV_PORT
           value: "6379"
+          
+        # S3 설정
+        - name: AWS_S3_BUCKET_NAME
+          value: "${S3_BUCKET_NAME}"
+        - name: AWS_REGION
+          value: "ap-northeast-2"
         - name: KT_JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: mindlog-be-secret
               key: KT_JWT_SECRET
+              
         livenessProbe:
           httpGet:
             path: /actuator/health
@@ -55,4 +65,4 @@ spec:
             path: /actuator/health
             port: 8080
           initialDelaySeconds: 30
-          periodSeconds: 10
+          periodSeconds: 10periodSeconds: 10
