@@ -1,5 +1,5 @@
-/cicd/ai/deployment.yaml
-/test
+#/cicd/ai/deployment.yaml
+#/test
 
 apiVersion: apps/v1
 kind: Deployment
@@ -21,19 +21,30 @@ spec:
         image: ${ECR_URL}/mindlog-ai:latest
         ports:
         - containerPort: 8000
+        
         env:
+        # --- [Static] ---------------------------
+        - name: DB_USER
+          value: "dbadmin"
+        - name: DB_NAME
+          value: "testdb"
+        - name: AWS_REGION
+          value: "ap-northeast-2"
+        - name: BEDROCK_MODEL_ID
+          value: "anthropic.claude-haiku-4-5-20251001-v1:0"
+        # --- [Dynamic] ---------------------------
+        - name: DB_HOST
+          value: "${RDS_ENDPOINT}"
+        - name: REDIS_URL
+          value: "redis://${REDIS_ENDPOINT}:6379/0"
+        - name: DATABASE_URL
+          value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):5432/$(DB_NAME)?sslmode=require"
+        # --- [Secret] -----------------------------
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
               key: DB_PASSWORD
-        - name: DATABASE_URL
-          #value: "postgresql://${DB_USER}:$(DB_PASSWORD)@${RDS_ENDPOINT}:5432/${DB_NAME}?sslmode=require"
-          value: "postgresql://dbadmin:$(DB_PASSWORD)@${RDS_ENDPOINT}:5432/testdb?sslmode=require"
-        - name: REDIS_URL
-          #value: "redis://${REDIS_ENDPOINT}:6379/0"
-          value: "redis://redis:6379/0"
-
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
@@ -44,11 +55,7 @@ spec:
             secretKeyRef:
               name: mindlog-ai-secret
               key: AWS_SECRET_ACCESS_KEY
-        - name: AWS_REGION
-          value: "ap-northeast-2"
-        - name: BEDROCK_MODEL_ID
-          value: "anthropic.claude-haiku-4-5-20251001-v1:0"
-        livenessProbe:
+              
           httpGet:
             path: /health
             port: 8000
