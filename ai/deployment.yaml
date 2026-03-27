@@ -28,10 +28,12 @@ spec:
               name: mindlog-ai-secret
               key: DB_PASSWORD
         - name: DATABASE_URL
-          # dbadmin, testdb 등을 변수화해서 테섭/본섭 유연하게 대응
-          value: "postgresql://${DB_USER}:$(DB_PASSWORD)@${RDS_ENDPOINT}:5432/${DB_NAME}?sslmode=require"
+          #value: "postgresql://${DB_USER}:$(DB_PASSWORD)@${RDS_ENDPOINT}:5432/${DB_NAME}?sslmode=require"
+          value: "postgresql://dbadmin:$(DB_PASSWORD)@${RDS_ENDPOINT}:5432/testdb?sslmode=require"
         - name: REDIS_URL
-          value: "redis://${REDIS_ENDPOINT}:6379/0"
+          #value: "redis://${REDIS_ENDPOINT}:6379/0"
+          value: "redis://redis:6379/0"
+
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
