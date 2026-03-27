@@ -1,3 +1,6 @@
+#CICD/frontend/deployment.yaml
+#test
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -15,13 +18,20 @@ spec:
     spec:
       containers:
       - name: frontend
+        # --- [Dynamic] ---------------------------------
         image: ${ECR_URL}/mindlog-fe:latest
         ports:
         - containerPort: 3000
         env:
+        # --- [Static] ----------------------------------
+        - name: NODE_ENV
+          value: "development"
+        # --- [Dynamic] ---------------------------------
         - name: BACKEND_URL
-          # BE 로드밸런서 주소를 동적으로 넣거나 내부 서비스명 사용
+          # BE 로드밸런서 주소
           value: "${BE_API_URL}" 
+        # -----------------------------------------------
+
         livenessProbe:
           httpGet:
             path: /
