@@ -1,4 +1,3 @@
-#cicd/backend/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,33 +18,30 @@ spec:
         image: ${ECR_URL}/mindlog-be:latest
         ports:
         - containerPort: 8080
+        
         env:
         - name: PROFILE
           value: "dev"
-          
         - name: DB_DEV_HOST
           value: "${RDS_ENDPOINT}"
         - name: DB_DEV_PORT
           value: "5432"
         - name: DB_DEV_DATABASE
-          value: "mindlog_db"
+          value: "${DB_NAME}"
         - name: DB_DEV_USERNAME
-          value: "mindlog"
+          value: "${DB_USER}"
         - name: DB_DEV_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mindlog-be-secret
               key: DB_PASSWORD
               
-        # Redis 설정
         - name: REDIS_DEV_HOST
           value: "${REDIS_ENDPOINT}"
-        - name: SPRING_DATA_REDIS_HOST  # 이 줄을 추가
-          value: "${REDIS_ENDPOINT}"    # 이 줄도 추가
+        - name: SPRING_DATA_REDIS_HOST
+          value: "${REDIS_ENDPOINT}"
         - name: REDIS_DEV_PORT
           value: "6379"
-          
-        # S3 설정
         - name: AWS_S3_BUCKET_NAME
           value: "${S3_BUCKET_NAME}"
         - name: AWS_REGION
