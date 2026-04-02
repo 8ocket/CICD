@@ -19,7 +19,7 @@ spec:
       containers:
       - name: frontend
         # --- [Dynamic] ---------------------------------
-        image: ${ECR_URL}/mindlog-fe:latest
+        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-fe:latest
         ports:
         - containerPort: 3000
         env:
@@ -29,7 +29,7 @@ spec:
         # --- [Dynamic] ---------------------------------
         - name: BACKEND_URL
           # BE 로드밸런서 주소
-          value: "${BE_API_URL}" 
+          value: "http://k8s-default-mindlogb-1ae6f88568-0ae83f3c11e788c1.elb.ap-northeast-2.amazonaws.com:8080" 
         # -----------------------------------------------
 
         livenessProbe:
