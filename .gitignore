@@ -1,3 +1,4 @@
 deploy.sh
 *.tmp
 *.pem
+setup-secrets.sh
