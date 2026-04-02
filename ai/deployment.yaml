@@ -43,18 +43,18 @@ spec:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mindlog-ai-secret
-              key: DB_PASSWORD
+              name: mindlog-ai-secret 
+              key: DB_PASSWORD #
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
-              key: AWS_ACCESS_KEY_ID
+              key: AWS_ACCESS_KEY_ID #
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
-              key: AWS_SECRET_ACCESS_KEY
+              key: AWS_SECRET_ACCESS_KEY #
 
         livenessProbe:
           httpGet:
