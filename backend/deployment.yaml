@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: backend
-        image: ${ECR_URL}/mindlog-be:latest
+        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
         ports:
         - containerPort: 8080
         
@@ -44,11 +44,24 @@ spec:
           value: "ap-northeast-2"
         # --- [Dynamic] ---------------------------------
         - name: DB_DEV_HOST
-          value: "${RDS_ENDPOINT}"
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: DB_DEV_HOST #
+              
+        # 2. Redis 호스트 연결 (1)
         - name: REDIS_DEV_HOST
-          value: "${REDIS_ENDPOINT}"
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: REDIS_DEV_HOST #
+              
+        # 3. Redis 호스트 연결 (2) - Spring 전용
         - name: SPRING_DATA_REDIS_HOST
-          value: "${REDIS_ENDPOINT}"
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: REDIS_DEV_HOST #
         # --- [Secret] ---------------------------------
         - name: DB_DEV_PASSWORD
           valueFrom:
