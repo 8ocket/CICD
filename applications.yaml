@@ -1,0 +1,56 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mindlog-backend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/8ocket/CICD.git'
+    targetRevision: HEAD
+    path: backend  
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mindlog-frontend
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/8ocket/CICD.git'
+    targetRevision: HEAD
+    path: frontend 
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: mindlog-ai
+  namespace: argocd
+spec:
+  project: default
+  source:
+    repoURL: 'https://github.com/8ocket/CICD.git'
+    targetRevision: HEAD
+    path: ai       
+  destination:
+    server: 'https://kubernetes.default.svc'
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
