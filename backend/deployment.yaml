@@ -22,7 +22,6 @@ spec:
           value: "dev"
         - name: PROFILE
           value: "dev"
-        # 1. 필살기 JSON (비밀번호를 test1234로 수정함)
         - name: SPRING_APPLICATION_JSON
           value: >
             {
@@ -46,7 +45,7 @@ spec:
                 }
               }
             }
-        # 2. 보안 설정 유지
+        
         - name: KT_JWT_SECRET
           valueFrom:
             secretKeyRef:
