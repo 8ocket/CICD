@@ -1,18 +1,9 @@
-#CICD/backend/deployment.yaml
-# test
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mindlog-be-deployment
-  namespace: default
 spec:
   replicas: 2
-  strategy:
-    type: RollingUpdate
-    rollingUpdate:
-      maxSurge: 1
-      maxUnavailable: 0
   selector:
     matchLabels:
       app: mindlog-be
@@ -26,63 +17,48 @@ spec:
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
         ports:
         - containerPort: 8080
-        
         env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "dev"
         - name: PROFILE
           value: "dev"
-        - name: DB_DEV_PORT
-          value: "5432"
-        - name: DB_DEV_DATABASE
-          value: "mindlog_db"      
-        - name: DB_DEV_USERNAME
-          value: "mindlog"     
-        - name: REDIS_DEV_PORT
-          value: "6379"
-        - name: AWS_S3_BUCKET_NAME
-          value: "8ocket-backend-photos-prod" 
-        - name: AWS_REGION
-          value: "ap-northeast-2"
-        # --- [Dynamic] ---------------------------------
-        - name: DB_DEV_HOST
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: DB_DEV_HOST #
-              
-        # 2. Redis 호스트 연결 (1)
-        - name: REDIS_DEV_HOST
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: REDIS_DEV_HOST #
-              
-        # 3. Redis 호스트 연결 (2) - Spring 전용
-        - name: SPRING_DATA_REDIS_HOST
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: REDIS_DEV_HOST #
-        # --- [Secret] ---------------------------------
-        - name: DB_DEV_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: DB_PASSWORD 
+        # 1. 필살기 JSON (비밀번호를 test1234로 수정함)
+        - name: SPRING_APPLICATION_JSON
+          value: >
+            {
+              "spring": {
+                "datasource": {
+                  "url": "jdbc:postgresql://rds:5432/mindlog_dev",
+                  "username": "mindlog",
+                  "password": "test1234",
+                  "driver-class-name": "org.postgresql.Driver"
+                },
+                "data": {
+                  "redis": {
+                    "host": "redis"
+                  }
+                },
+                "jpa": {
+                  "database-platform": "org.hibernate.dialect.PostgreSQLDialect",
+                  "hibernate": {
+                    "ddl-auto": "update"
+                  }
+                }
+              }
+            }
+        # 2. 보안 설정 유지
         - name: KT_JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: mindlog-be-secret
               key: KT_JWT_SECRET
-              
+        - name: AWS_S3_BUCKET_NAME
+          value: "test-project-test-photos"
+        - name: AWS_REGION
+          value: "ap-northeast-2"
+
         livenessProbe:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 60
-          periodSeconds: 30
-        readinessProbe:
-          httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 30
-          periodSeconds: 10
+          initialDelaySeconds: 180
