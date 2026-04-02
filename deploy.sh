@@ -27,9 +27,9 @@ echo "------------------------------------------"
 
 # 2. Kubernetes Secret 재생성 (default 네임스페이스 명시)
 echo "🔐 시크릿 재생성 중..."
-kubectl delete secret mindlog-be-secret -n default --ignore-not-found
+kubectl delete secret mindlog-be-secret -n defaulmindlog_passwordt --ignore-not-found
 kubectl create secret generic mindlog-be-secret -n default \
-  --from-literal=DB_PASSWORD='test1234' \
+  --from-literal=DB_PASSWORD='mindlog_password' \
   --from-literal=KT_JWT_SECRET='kt-cloud-8ocket-mindLog-jwt-secret-key' \
   --from-literal=DB_DEV_HOST="$RDS_ENDPOINT" \
   --from-literal=REDIS_DEV_HOST="$REDIS_ENDPOINT"
