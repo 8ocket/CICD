@@ -33,13 +33,13 @@ spec:
         - name: DB_DEV_PORT
           value: "5432"
         - name: DB_DEV_DATABASE
-          value: "testdb"      
+          value: "mindlog_db"      
         - name: DB_DEV_USERNAME
-          value: "dbadmin"     
+          value: "mindlog"     
         - name: REDIS_DEV_PORT
           value: "6379"
         - name: AWS_S3_BUCKET_NAME
-          value: "test-project-test-photos" 
+          value: "8ocket-backend-photos-prod" 
         - name: AWS_REGION
           value: "ap-northeast-2"
         # --- [Dynamic] ---------------------------------
