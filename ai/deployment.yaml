@@ -25,9 +25,9 @@ spec:
         env:
         # --- [Static] ---------------------------
         - name: DB_USER
-          value: "dbadmin"
+          value: "mindlog"
         - name: DB_NAME
-          value: "testdb"
+          value: "mindlog_db"
         - name: AWS_REGION
           value: "ap-northeast-2"
         - name: BEDROCK_MODEL_ID
