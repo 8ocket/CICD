@@ -12,7 +12,7 @@ spec:
   template:
     metadata:
       annotations:
-        instrumentation.newrelic.com/inject-python: "true
+        instrumentation.newrelic.com/inject-python: "true"
       labels:
         app: mindlog-ai
     spec:
