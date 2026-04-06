@@ -15,7 +15,7 @@ spec:
       containers:
       - name: backend
         # ECR 주소도 변수로 처리! deploy.sh에서 치환하세요.
-        image: ${ECR_IMAGE_URL}
+        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
         ports:
         - containerPort: 8080
         env:
@@ -26,7 +26,7 @@ spec:
         
         # RDS 엔드포인트 치환용
         - name: DB_DEV_HOST
-          value: "${RDS_ENDPOINT}"
+          value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
 
         # DB 연결 설정 (시크릿 연동)
         - name: SPRING_DATASOURCE_URL
