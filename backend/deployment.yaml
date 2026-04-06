@@ -44,11 +44,16 @@ spec:
 
         - name: SPRING_JPA_DATABASE_PLATFORM
           value: "org.hibernate.dialect.PostgreSQLDialect"
-
         - name: SPRING_DATA_REDIS_HOST
-          value: "redis"
-
-        # 기존 보안/환경 설정 유지
+          value: "master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com"
+        - name: SPRING_DATA_REDIS_PORT
+          value: "6379"
+        - name: SPRING_DATA_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: REDIS_PASSWORD
+        
         - name: KT_JWT_SECRET
           valueFrom:
             secretKeyRef:

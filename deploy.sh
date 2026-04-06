@@ -45,7 +45,7 @@ if [ -f "./backend/deployment.yaml" ]; then
     sed -i 's|${RDS_ENDPOINT}|'"$RDS_ENDPOINT"'|g' ./backend/deployment.yaml
     sed -i 's|/mindlog_db"|/mindlog_db?sslmode=require"|g' ./backend/deployment.yaml
     sed -i "s|\${RDS_ENDPOINT}|$RDS_ENDPOINT|g" ./backend/deployment.yaml
-
+    sed -i "s|\${REDIS_ENDPOINT}|$REDIS_ENDPOINT|g" ./backend/deployment.yaml
     echo ">>> Check replacement result:"
     grep -A 1 "image:" ./backend/deployment.yaml
     grep -A 1 "DB_DEV_HOST" ./backend/deployment.yaml
