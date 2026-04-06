@@ -1,3 +1,4 @@
+# /cicd/backend/deployment.yaml.template
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,21 +15,36 @@ spec:
     spec:
       containers:
       - name: backend
-        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
+        image: ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
         ports:
         - containerPort: 8080
         env:
+        # --- [New Relic] -----------------------------
+        - name: JAVA_TOOL_OPTIONS
+          value: "-javaagent:/nri-java--be-api/newrelic-agent.jar"
+        - name: NEW_RELIC_LICENSE_KEY
+          value: "NRAK-JOFR5AGA9ITAHHACCZ6BYNYAC99"
+        - name: NEW_RELIC_APP_NAME
+          value: "mindlog-be-prod"
+          
+        # --- [Spring Profiles] -----------------------
         - name: SPRING_PROFILES_ACTIVE
           value: "dev"
         - name: PROFILE
           value: "dev"
-        
-        # RDS 엔드포인트 치환용
+
+        # --- [Dynamic] -------------------------------
         - name: DB_DEV_HOST
-          value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
-        # DB 연결 설정 (시크릿 연동)
+          value: "${RDS_ENDPOINT}"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://$(DB_DEV_HOST):5432/mindlog_db?sslmode=require"
+        
+        - name: SPRING_DATA_REDIS_HOST
+          value: "${REDIS_ENDPOINT}"
+        - name: SPRING_DATA_REDIS_PORT
+          value: "6379"
+
+        # --- [Secret] --------------------------------
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
@@ -39,29 +55,19 @@ spec:
             secretKeyRef:
               name: mindlog-be-secret
               key: DB_PASSWORD
-
-        - name: SPRING_JPA_DATABASE_PLATFORM
-          value: "org.hibernate.dialect.PostgreSQLDialect"
-        - name: SPRING_DATA_REDIS_HOST
-          value: "master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com"          
-        - name: SPRING_DATA_REDIS_PORT
-          value: "6379"
-            #- name: SPRING_DATA_REDIS_PASSWORD
-            # valueFrom:
-            #secretKeyRef:
-            # name: mindlog-be-secret
-            # key: REDIS_PASSWORD
-        
         - name: KT_JWT_SECRET
           valueFrom:
             secretKeyRef:
               name: mindlog-be-secret
               key: KT_JWT_SECRET
+
+        # --- [Static] --------------------------------
+        - name: SPRING_JPA_DATABASE_PLATFORM
+          value: "org.hibernate.dialect.PostgreSQLDialect"
         - name: AWS_S3_BUCKET_NAME
           value: "test-project-test-photos"
         - name: AWS_REGION
           value: "ap-northeast-2"
-
         - name: DEFAULT_PROFILE_IMAGE
           value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
         - name: DEFAULT_PERSONA_IMAGE

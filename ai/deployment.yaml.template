@@ -1,6 +1,4 @@
-#/cicd/ai/deployment.yaml
-#/test
-
+# /cicd/ai/deployment.yaml.template
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,11 +16,17 @@ spec:
     spec:
       containers:
       - name: ai-api
-        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
+        image: ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
         ports:
         - containerPort: 8000
-        
+        # newrelic
+        command: ["newrelic-admin", "run-program", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
         env:
+        # --- [New Relic] ---------------------------
+        - name: NEW_RELIC_LICENSE_KEY
+          value: "NRAK-JOFR5AGA9ITAHHACCZ6BYNYAC99"
+        - name: NEW_RELIC_APP_NAME
+          value: "mindlog-ai-prod"
         # --- [Static] ---------------------------
         - name: DB_USER
           value: "mindlog"
@@ -34,27 +38,27 @@ spec:
           value: "anthropic.claude-haiku-4-5-20251001-v1:0"
         # --- [Dynamic] ---------------------------
         - name: DB_HOST
-          value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
+          value: "${RDS_ENDPOINT}"
         - name: REDIS_URL
-          value: "redis://master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com:6379/0"
+          value: "redis://${REDIS_ENDPOINT}:6379/0"
         - name: DATABASE_URL
           value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):5432/$(DB_NAME)?sslmode=require"
         # --- [Secret] -----------------------------
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mindlog-ai-secret 
-              key: DB_PASSWORD #
+              name: mindlog-ai-secret
+              key: DB_PASSWORD
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
-              key: AWS_ACCESS_KEY_ID #
+              key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
-              key: AWS_SECRET_ACCESS_KEY #
+              key: AWS_SECRET_ACCESS_KEY
 
         livenessProbe:
           httpGet:

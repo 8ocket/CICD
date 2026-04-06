@@ -1,6 +1,4 @@
-#/cicd/ai/deployment.yaml
-#/test
-
+# /cicd/ai/deployment.yaml.template
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,8 +19,14 @@ spec:
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
         ports:
         - containerPort: 8000
-        
+        # newrelic
+        command: ["newrelic-admin", "run-program", "uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
         env:
+        # --- [New Relic] ---------------------------
+        - name: NEW_RELIC_LICENSE_KEY
+          value: "NRAK-JOFR5AGA9ITAHHACCZ6BYNYAC99"
+        - name: NEW_RELIC_APP_NAME
+          value: "mindlog-ai-prod"
         # --- [Static] ---------------------------
         - name: DB_USER
           value: "mindlog"
@@ -43,18 +47,18 @@ spec:
         - name: DB_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: mindlog-ai-secret 
-              key: DB_PASSWORD #
+              name: mindlog-ai-secret
+              key: DB_PASSWORD
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
-              key: AWS_ACCESS_KEY_ID #
+              key: AWS_ACCESS_KEY_ID
         - name: AWS_SECRET_ACCESS_KEY
           valueFrom:
             secretKeyRef:
               name: mindlog-ai-secret
-              key: AWS_SECRET_ACCESS_KEY #
+              key: AWS_SECRET_ACCESS_KEY
 
         livenessProbe:
           httpGet:

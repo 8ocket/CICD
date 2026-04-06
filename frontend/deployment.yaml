@@ -1,6 +1,4 @@
-#CICD/frontend/deployment.yaml
-#test
-
+# /cicd/frontend/deployment.yaml.template
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -18,7 +16,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        # --- [Dynamic] ---------------------------------
+        # --- [Dynamic] ----------------------
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-fe:latest
         ports:
         - containerPort: 3000
@@ -26,7 +24,7 @@ spec:
         # --- [Static] ----------------------------------
         - name: NODE_ENV
           value: "development"
-        # --- [Dynamic] ---------------------------------
+        # --- [Dynamic] ----------------------
         - name: BACKEND_URL
           value: "http://k8s-default-mindlogb-953ab5f6e4-55da62fa7841e5a9.elb.ap-northeast-2.amazonaws.com:8080"
         # -----------------------------------------------
