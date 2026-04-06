@@ -28,7 +28,7 @@ echo "------------------------------------------"
 kubectl delete secret mindlog-be-secret -n default --ignore-not-found
 kubectl create secret generic mindlog-be-secret -n default \
   --from-literal=DB_USERNAME="mindlog" \
-  --from-literal=DB_PASSWORD='mindlog_password' \
+  --from-literal=DB_PASSWORD='test1234' \
   --from-literal=DB_NAME='mindlog_db' \
   --from-literal=KT_JWT_SECRET='kt-cloud-8ocket-mindLog-jwt-secret-key' \
   --from-literal=DB_DEV_HOST="$RDS_ENDPOINT" \
