@@ -28,7 +28,7 @@ spec:
         - name: NEW_RELIC_LICENSE_KEY
           value: "NRAK-JOFR5AGA9ITAHHACCZ6BYNYAC99"
         - name: NEW_RELIC_APP_NAME
-          value: "mindlog-ai-prod"
+          value: "mindlog-ai"
         # --- [Static] ---------------------------
         - name: DB_USER
           value: "mindlog"
