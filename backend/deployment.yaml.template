@@ -75,15 +75,15 @@ spec:
         - name: TEST_PERSONA_IMAGE
           value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
 
-        livenessProbe:
-          httpGet:
-	    path: /actuator/health
-    	    port: 8080
-          initialDelaySeconds: 30  # 180에서 30으로 단축 (앱이 10초면 뜨니까 충분함)
-  	  periodSeconds: 10
-	readinessProbe:
-  	  httpGet:
-	    path: /actuator/health
-	    port: 8080
-	  initialDelaySeconds: 20  # 20초 정도면 서비스 투입 준비 완료
-	  periodSeconds: 10
+      livenessProbe:
+        httpGet:
+	  path: /actuator/health
+          port: 8080
+        initialDelaySeconds: 30  # 180에서 30으로 단축 (앱이 10초면 뜨니까 충분함)
+  	periodSeconds: 10
+      readinessProbe:
+        httpGet:
+	  path: /actuator/health
+	  port: 8080
+	initialDelaySeconds: 20  # 20초 정도면 서비스 투입 준비 완료
+	periodSeconds: 10
