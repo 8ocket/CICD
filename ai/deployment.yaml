@@ -11,6 +11,8 @@ spec:
       app: mindlog-ai
   template:
     metadata:
+      annotations:
+        instrumentation.newrelic.com/inject-python: "true
       labels:
         app: mindlog-ai
     spec:

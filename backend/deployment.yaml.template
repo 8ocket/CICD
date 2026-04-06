@@ -10,6 +10,8 @@ spec:
       app: mindlog-be
   template:
     metadata:
+      annotations:
+        instrumentation.newrelic.com/inject-java: "true"
       labels:
         app: mindlog-be
     spec:
