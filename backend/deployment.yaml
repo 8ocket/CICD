@@ -59,6 +59,13 @@ spec:
         - name: AWS_REGION
           value: "ap-northeast-2"
 
+        - name: DEFAULT_PROFILE_IMAGE
+          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
+        - name: DEFAULT_PERSONA_IMAGE
+          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+        - name: TEST_PERSONA_IMAGE
+          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+
         livenessProbe:
           httpGet:
             path: /actuator/health
