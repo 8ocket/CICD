@@ -30,7 +30,7 @@ spec:
 
         # DB 연결 설정 (시크릿 연동)
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://$(DB_DEV_HOST):5432/mindlog_db"
+          value: "jdbc:postgresql://$(DB_DEV_HOST):5432/mindlog_db?sslmode=require"
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
