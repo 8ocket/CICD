@@ -8,6 +8,6 @@ spec:
     app: mindlog-fe
   ports:
     - protocol: TCP
-      port: 80         # 외부(ALB)에서 접속할 포트
-      targetPort: 3000 # 실제 파드(Next.js) 포트 (수정!)
-  type: ClusterIP      # 나중에 Ingress(ALB)를 붙일 거라 ClusterIP면 충분해요
+      port: 80         
+      targetPort: 3000 # 실제 파드(Next.js) 포트 
+  type: LoadBalancer
