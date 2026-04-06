@@ -37,13 +37,25 @@ kubectl create secret generic mindlog-be-secret -n default \
 
 # be sync
 if [ -f "./backend/deployment.yaml" ]; then
-    sed -i "s|\${ECR_IMAGE_URL}|$ECR_IMAGE_URL|g" ./backend/deployment.yaml
-    sed -i "/DB_DEV_HOST/s|\${RDS_ENDPOINT}|$RDS_ENDPOINT|g" ./backend/deployment.yaml
-    echo "Check replacement result:"
-    grep -E "image:|DB_DEV_HOST" ./backend/deployment.yaml
+    echo ">>> 치환 작업을 시작합니다..."
+
+    # 1. 이미지 주소 치환
+    # 작은따옴표로 감싸서 ${ECR_IMAGE_URL} 이라는 '글자'를 정확히 찾습니다.
+    sed -i 's|${ECR_IMAGE_URL}|'"$ECR_IMAGE_URL"'|g' ./backend/deployment.yaml
+
+    # 2. RDS 엔드포인트 치환
+    # 조건부 문법 버리고, 파일 전체에서 ${RDS_ENDPOINT} 글자를 찾아 실제 주소로 바꿉니다.
+    sed -i 's|${RDS_ENDPOINT}|'"$RDS_ENDPOINT"'|g' ./backend/deployment.yaml
+
+    echo ">>> Check replacement result:"
+    # grep 결과를 더 확실하게 보기 위해 두 줄씩 출력합니다.
+    grep -A 1 "image:" ./backend/deployment.yaml
+    grep -A 1 "DB_DEV_HOST" ./backend/deployment.yaml
 else
     echo "Error: ./backend/deployment.yaml not found!"
+    exit 1
 fi
+
 # fe sync
 if [ -f "./frontend/deployment.yaml" ]; then
     sed -i "s|\${BE_API_URL}|$BE_API_URL|g" ./frontend/deployment.yaml
