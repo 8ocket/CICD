@@ -36,9 +36,15 @@ kubectl create secret generic mindlog-be-secret -n default \
 
 
 # be sync
-sed -i "s|\${ECR_IMAGE_URL}|$ECR_IMAGE_URL|g" ./backend/deployment.yaml
-sed -i "s|\${RDS_ENDPOINT}|$RDS_ENDPOINT|g" ./backend/deployment.yaml
-
+if [ -f "./backend/deployment.yaml" ]; then
+    sed -i "s|\${ECR_IMAGE_URL}|$ECR_IMAGE_URL|g" ./backend/deployment.yaml
+    sed -i "s|\${RDS_ENDPOINT}|$RDS_ENDPOINT|g" ./backend/deployment.yaml
+    
+    echo "Check replacement result:"
+    grep -E "image:|DB_DEV_HOST" ./backend/deployment.yaml
+else
+    echo "Error: ./backend/deployment.yaml not found!"
+fi
 # fe sync
 if [ -f "./frontend/deployment.yaml" ]; then
     sed -i "s|\${BE_API_URL}|$BE_API_URL|g" ./frontend/deployment.yaml
