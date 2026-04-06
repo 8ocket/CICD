@@ -1,0 +1,39 @@
+global:
+  licenseKey: "" 
+  customSecretName: "newrelic-license-key"
+  customSecretLicenseKey: "licenseKey"
+  cluster: "mindlog"
+
+newrelic-infrastructure:
+  enabled: true
+  nriKubelet:
+    enabled: false
+
+kube-state-metrics:
+  enabled: false
+
+logging:
+  enabled: true
+  fluentBit:
+    filter:
+      kubernetes:
+        include_namespaces:
+          - default
+    extraFilters: |
+      [FILTER]
+          Name    grep
+          Match   *
+          Exclude log DEBUG
+      [FILTER]
+          Name    grep
+          Match   *
+          Exclude log TRACE
+
+prometheus:
+  enabled: false
+
+k8s-agents-operator:
+  enabled: true
+
+k8s-agents-operator-instrumentation:
+  enabled: true

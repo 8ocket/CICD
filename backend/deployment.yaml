@@ -20,8 +20,6 @@ spec:
         - containerPort: 8080
         env:
         # --- [New Relic] -----------------------------
-        - name: JAVA_TOOL_OPTIONS
-          value: "-javaagent:/nri-java--be-api/newrelic-agent.jar"
         - name: NEW_RELIC_LICENSE_KEY
           value: "NRAK-JOFR5AGA9ITAHHACCZ6BYNYAC99"
         - name: NEW_RELIC_APP_NAME

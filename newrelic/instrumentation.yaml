@@ -1,0 +1,29 @@
+#instrumentation.yaml
+
+apiVersion: newrelic.com/v1alpha2
+kind: Instrumentation
+metadata:
+  name: ai-python-instrumentation
+  namespace: newrelic
+spec:
+  agent:
+    language: python
+    image: newrelic/newrelic-python-init:latest
+  podLabelSelector:
+    matchLabels:
+      app: mindlog-ai  
+
+---
+
+apiVersion: newrelic.com/v1alpha2
+kind: Instrumentation
+metadata:
+  name: backend-java-instrumentation
+  namespace: newrelic
+spec:
+  agent:
+    language: java
+    image: newrelic/newrelic-java-init:latest
+  podLabelSelector:
+    matchLabels:
+      app: mindlog-be
