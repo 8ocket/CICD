@@ -47,7 +47,7 @@ git commit -m "chore: infrastructure sync [$(date +'%Y-%m-%d %H:%M:%S')]"
 git push origin main
 
 # 5. Cleanup 
-kubectl delete pods --all --field-selector status.phase=Pending
+kubectl delete pods --field-selector status.phase=Pending
 
 echo "------------------------------------------"
 echo "Git Push Done! ArgoCD will sync automatically."
