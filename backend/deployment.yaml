@@ -77,6 +77,13 @@ spec:
 
         livenessProbe:
           httpGet:
-            path: /actuator/health
-            port: 8080
-          initialDelaySeconds: 180
+	    path: /actuator/health
+    	    port: 8080
+          initialDelaySeconds: 30  # 180에서 30으로 단축 (앱이 10초면 뜨니까 충분함)
+  	  periodSeconds: 10
+	readinessProbe:
+  	  httpGet:
+	    path: /actuator/health
+	    port: 8080
+	  initialDelaySeconds: 20  # 20초 정도면 서비스 투입 준비 완료
+	  periodSeconds: 10
