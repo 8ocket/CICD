@@ -15,7 +15,7 @@ spec:
       containers:
       - name: backend
         # ECR 주소도 변수로 처리! deploy.sh에서 치환하세요.
-        image: ${ECR_IMAGE_URL}
+        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
         ports:
         - containerPort: 8080
         env:
