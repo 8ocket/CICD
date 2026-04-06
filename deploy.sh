@@ -44,6 +44,7 @@ if [ -f "./backend/deployment.yaml" ]; then
     # 2. RDS 엔드포인트 치환
     sed -i 's|${RDS_ENDPOINT}|'"$RDS_ENDPOINT"'|g' ./backend/deployment.yaml
     sed -i 's|/mindlog_db"|/mindlog_db?sslmode=require"|g' ./backend/deployment.yaml
+    sed -i "s|\${RDS_ENDPOINT}|$RDS_ENDPOINT|g" ./backend/deployment.yaml
 
     echo ">>> Check replacement result:"
     grep -A 1 "image:" ./backend/deployment.yaml

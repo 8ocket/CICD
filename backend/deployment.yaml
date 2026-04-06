@@ -41,7 +41,10 @@ spec:
             secretKeyRef:
               name: mindlog-be-secret
               key: DB_PASSWORD
-        
+
+        - name: SPRING_JPA_DATABASE_PLATFORM
+          value: "org.hibernate.dialect.PostgreSQLDialect"
+
         - name: SPRING_DATA_REDIS_HOST
           value: "redis"
 
