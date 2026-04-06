@@ -24,21 +24,24 @@ echo "   - BE API: $BE_API_URL"
 echo "------------------------------------------"
 
 # 2. Kubernetes Secret 재생성 (default 네임스페이스 명시)
-kubectl delete secret mindlog-be-secret -n defaulmindlog_passwordt --ignore-not-found
+kubectl delete secret mindlog-be-secret -n default --ignore-not-found
 kubectl create secret generic mindlog-be-secret -n default \
   --from-literal=DB_USERNAME="mindlog" \
   --from-literal=DB_PASSWORD='mindlog_password' \
+  --from-literal=DB_DEV_DATABASE='mindlog_dev' \
   --from-literal=KT_JWT_SECRET='kt-cloud-8ocket-mindLog-jwt-secret-key' \
   --from-literal=DB_DEV_HOST="$RDS_ENDPOINT" \
   --from-literal=REDIS_DEV_HOST="$REDIS_ENDPOINT"
-
 # 3. YAML 파일 내용 강제 치환 (변수명 자체를 타겟팅)
 
-# ECR 주소 치환 (${ECR_URL} 문자열 자체를 바꿈)
-find . -name "deployment.yaml" -exec sed -i "s|\${ECR_URL}|$ECR_URL|g" {} +
+git checkout backend/deployment.yaml 2>/dev/null || echo "First run, no checkout needed"
+sed -i "s|\${ECR_URL}|$ECR_URL|g" ./backend/deployment.yaml
+sed -i "s|\${RDS_ENDPOINT}|$RDS_ENDPOINT|g" ./backend/deployment.yaml
 
-# FE의 BE_API_URL 치환 (${BE_API_URL} 문자열 자체를 바꿈)
-sed -i "s|\${BE_API_URL}|$BE_API_URL|g" ./frontend/deployment.yaml
+if [ -f "./frontend/deployment.yaml" ]; then
+    git checkout frontend/deployment.yaml 2>/dev/null
+    sed -i "s|\${BE_API_URL}|$BE_API_URL|g" ./frontend/deployment.yaml
+fi
 
 # 4. Git push
 git add .
