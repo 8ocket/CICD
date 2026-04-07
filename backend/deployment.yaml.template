@@ -40,7 +40,7 @@ spec:
           value: "jdbc:postgresql://$(DB_DEV_HOST):5432/mindlog_db?sslmode=require"
 
         - name: SPRING_DATA_REDIS_HOST
-          value: "${REDIS_ENDPOINT}"
+          value: "redis"
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
 
