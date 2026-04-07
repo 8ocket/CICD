@@ -75,6 +75,9 @@ spec:
         - name: TEST_PERSONA_IMAGE
           value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
 
+        - name: MANAGEMENT_HEALTH_REDIS_ENABLED
+          value: "false"
+
         livenessProbe:
           httpGet:
             path: /actuator/health
