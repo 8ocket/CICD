@@ -40,6 +40,9 @@ metadata:
     alb.ingress.kubernetes.io/group.name: alb-group
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: "/actuator/health"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-2:854439979580:certificate/6e1b263c-ba8c-4135-a7f7-0a800afc94d2"
 spec:
   ingressClassName: alb
   rules:
@@ -64,6 +67,9 @@ metadata:
     alb.ingress.kubernetes.io/group.name: alb-group
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: "/health"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-2:854439979580:certificate/6e1b263c-ba8c-4135-a7f7-0a800afc94d2"
 spec:
   ingressClassName: alb
   rules:
@@ -89,6 +95,9 @@ metadata:
     alb.ingress.kubernetes.io/group.name: alb-group
     alb.ingress.kubernetes.io/target-type: ip
     alb.ingress.kubernetes.io/healthcheck-path: "/api/health"
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-2:854439979580:certificate/6e1b263c-ba8c-4135-a7f7-0a800afc94d2"
 spec:
   ingressClassName: alb
   rules:
