@@ -1,0 +1,104 @@
+---
+# 1. 프론트엔드 (FE) - 메인 도메인 및 공통 보안 설정
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mindlog-fe-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/group.name: alb-group
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    
+
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}, {"HTTP":80}]'
+    alb.ingress.kubernetes.io/ssl-redirect: '443'
+    alb.ingress.kubernetes.io/certificate-arn: "arn:aws:acm:ap-northeast-2:854439979580:certificate/6e1b263c-ba8c-4135-a7f7-0a800afc94d2"
+    alb.ingress.kubernetes.io/wafv2-acl-arn: "arn:aws:wafv2:ap-northeast-2:854439979580:regional/webacl/prod-waf-8ocket/c92d65a9-a08d-4254-a70f-6513ade6d1eb"
+    alb.ingress.kubernetes.io/healthcheck-path: "/"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: mindlog.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mindlog-fe-service
+                port:
+                  number: 3000
+---
+# 2. 백엔드 (BE) 
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mindlog-be-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/group.name: alb-group
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: "/actuator/health"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: api.mindlog.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mindlog-be-service
+                port:
+                  number: 8080
+---
+# 3. AI
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mindlog-ai-ingress
+  namespace: default
+  annotations:
+    alb.ingress.kubernetes.io/group.name: alb-group
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: "/health"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: ai.mindlog.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: mindlog-ai-service
+                port:
+                  number: 8000
+---
+# 4. Grafana (모니터링)
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: grafana-ingress
+  namespace: monitoring
+  annotations:
+    alb.ingress.kubernetes.io/group.name: alb-group
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: "/api/health"
+spec:
+  ingressClassName: alb
+  rules:
+    - host: grafana.mindlog.cloud
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: monitoring-grafana
+                port:
+                  number: 80
