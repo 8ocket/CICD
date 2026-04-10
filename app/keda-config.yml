@@ -19,8 +19,8 @@ spec:
         query: bedrock_queue_length{app="mindlog-ai"}
         threshold: '5'
     - type: cpu
+      metricType: Utilization
       metadata:
-        metricType: Utilization
         value: '70'
 
 --- # be
@@ -44,8 +44,8 @@ spec:
         query: sum(rate(http_server_requests_seconds_count[1m]))
         threshold: '100'
     - type: cpu
+      metricType: Utilization
       metadata:
-        metricType: Utilization
         value: '70'
 
 --- # fe
@@ -63,10 +63,10 @@ spec:
   maxReplicaCount: 5
   triggers:
     - type: cpu
+      metricType: Utilization
       metadata:
-        metricType: Utilization
         value: '70'
     - type: memory
+      metricType: Utilization
       metadata:
-        metricType: Utilization
         value: '70'
