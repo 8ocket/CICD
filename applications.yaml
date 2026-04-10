@@ -67,7 +67,7 @@ spec:
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: mindlog-ingress
+  name: mindlog-app
   namespace: argocd
 spec:
   project: default
