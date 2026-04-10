@@ -15,6 +15,18 @@ spec:
       labels:
         app: mindlog-be
     spec:
+
+      initContainers:
+        - name: wait-for-ai-migration
+          image: busybox:1.28
+          command:
+            - 'sh'
+            - '-c'
+            - >
+              until nc -zv mindlog-ai-service 8000; do
+                sleep 5;
+              done;
+
       containers:
       - name: backend
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
