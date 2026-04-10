@@ -74,7 +74,7 @@ spec:
   source:
     repoURL: 'https://github.com/8ocket/CICD.git'
     targetRevision: HEAD
-    path: app 
+    path: ./app
   destination:
     server: 'https://kubernetes.default.svc'
     namespace: default 
