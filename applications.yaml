@@ -83,3 +83,5 @@ spec:
       prune: true
       selfHeal: true
       allowEmpty: false
+    syncOptions:
+      - SkipDryRunOnMissingResource=true
