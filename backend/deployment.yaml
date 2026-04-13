@@ -33,6 +33,7 @@ spec:
               until nc -zv mindlog-ai-service 8000; do
                 sleep 5;
               done;
+
       serviceAccountName: mindlog-be-sa
       containers:
       - name: backend

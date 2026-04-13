@@ -78,15 +78,15 @@ spec:
         - name: SPRING_JPA_DATABASE_PLATFORM
           value: "org.hibernate.dialect.PostgreSQLDialect"
         - name: AWS_S3_BUCKET_NAME
-          value: "test-project-test-photos"
+          value: "8ocket-backend-photos-prod"
         - name: AWS_REGION
           value: "ap-northeast-2"
         - name: DEFAULT_PROFILE_IMAGE
-          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
         - name: DEFAULT_PERSONA_IMAGE
-          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
         - name: TEST_PERSONA_IMAGE
-          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
 
         - name: MANAGEMENT_HEALTH_REDIS_ENABLED
           value: "false"
