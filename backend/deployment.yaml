@@ -30,6 +30,7 @@ spec:
       containers:
       - name: backend
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:

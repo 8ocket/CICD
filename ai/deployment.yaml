@@ -19,6 +19,7 @@ spec:
       containers:
       - name: ai-api
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         # newrelic
