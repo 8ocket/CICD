@@ -1,8 +1,9 @@
 # /cicd/backend/deployment.yaml.template
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: ServiceAccount
 metadata:
-  name: mindlog-be-deployment
+  name: mindlog-be-sa
+  namespace: default
 spec:
   replicas: 2
   selector:
@@ -27,6 +28,7 @@ spec:
                 sleep 5;
               done;
 
+      serviceAccountName: mindlog-be-sa
       containers:
       - name: backend
         image: ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
