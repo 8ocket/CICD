@@ -1,15 +1,9 @@
 # /cicd/backend/deployment.yaml.template
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: mindlog-be-sa
   namespace: default
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: mindlog-be-deployment
 spec:
   replicas: 2
   selector:
