@@ -1,4 +1,11 @@
 # /cicd/backend/deployment.yaml.template
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mindlog-be-sa
+  namespace: default
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,7 +33,7 @@ spec:
               until nc -zv mindlog-ai-service 8000; do
                 sleep 5;
               done;
-
+      serviceAccountName: mindlog-be-sa
       containers:
       - name: backend
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
@@ -77,15 +84,15 @@ spec:
         - name: SPRING_JPA_DATABASE_PLATFORM
           value: "org.hibernate.dialect.PostgreSQLDialect"
         - name: AWS_S3_BUCKET_NAME
-          value: "test-project-test-photos"
+          value: "8ocket-backend-photos-prod"
         - name: AWS_REGION
           value: "ap-northeast-2"
         - name: DEFAULT_PROFILE_IMAGE
-          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
         - name: DEFAULT_PERSONA_IMAGE
-          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
         - name: TEST_PERSONA_IMAGE
-          value: "https://test-project-test-photos.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
 
         - name: MANAGEMENT_HEALTH_REDIS_ENABLED
           value: "false"
