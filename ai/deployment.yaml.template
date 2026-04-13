@@ -61,6 +61,11 @@ spec:
             secretKeyRef:
               name: mindlog-ai-secret
               key: AWS_SECRET_ACCESS_KEY
+        - name: SECRET_KEY        
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: SECRET_KEY     
 
         livenessProbe:
           httpGet:
