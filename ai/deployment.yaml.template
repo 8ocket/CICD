@@ -27,7 +27,7 @@ spec:
         env:
         # --- [New Relic] ---------------------------
         - name: NEW_RELIC_LICENSE_KEY
-          value: "NEW_RELIC_LICENSE_KEY"
+          value: LICENSE_KEY
         - name: NEW_RELIC_APP_NAME
           value: "mindlog-ai"
         # --- [Static] ---------------------------
