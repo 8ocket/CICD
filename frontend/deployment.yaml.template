@@ -18,6 +18,7 @@ spec:
       - name: frontend
         # --- [Dynamic] ----------------------
         image: ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-fe:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 3000
         env:

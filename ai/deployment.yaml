@@ -19,6 +19,7 @@ spec:
       containers:
       - name: ai-api
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8000
         # newrelic
@@ -61,6 +62,11 @@ spec:
             secretKeyRef:
               name: mindlog-ai-secret
               key: AWS_SECRET_ACCESS_KEY
+        - name: SECRET_KEY        
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: SECRET_KEY     
 
         livenessProbe:
           httpGet:
@@ -74,10 +80,3 @@ spec:
             port: 8000
           initialDelaySeconds: 5
           periodSeconds: 10
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
-          limits:
-            cpu: "500m"
-            memory: "512Mi"

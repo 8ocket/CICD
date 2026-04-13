@@ -37,6 +37,7 @@ spec:
       containers:
       - name: backend
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         env:
@@ -113,10 +114,3 @@ spec:
           periodSeconds: 10
           failureThreshold: 5 
           timeoutSeconds: 5
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
-          limits:
-            cpu: "1000m"
-            memory: "1024Mi"
