@@ -49,6 +49,8 @@ git push origin main
 # 5. Cleanup 
 kubectl delete pods --field-selector status.phase=Pending
 
+kubectl rollout restart deployment mindlog-ai-deployment mindlog-be-deployment mindlog-fe-deployment
+
 echo "------------------------------------------"
 echo "Git Push Done! ArgoCD will sync automatically."
 echo "------------------------------------------"
