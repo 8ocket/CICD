@@ -1,4 +1,4 @@
-name: Reusable Build and Deploy
+name: Build and Deploy Action
 
 on:
   workflow_call:
@@ -22,17 +22,15 @@ jobs:
           aws-region: ap-northeast-2
 
       - name: Login to Amazon ECR
-        
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
 
       - name: Build and Push Image
-        
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           SERVICE: ${{ inputs.service_name }}
-        
         run: |
+          
           if [ -f "Makefile" ]; then
             make ecr-build ECR_REPO=$SERVICE
             docker tag $SERVICE:latest $ECR_REGISTRY/$SERVICE:latest
@@ -40,11 +38,6 @@ jobs:
           
           else
             docker build \
-              --build-arg NEXT_PUBLIC_API_URL="${{ secrets.NEXT_PUBLIC_API_URL }}" \
-              --build-arg NEXT_PUBLIC_KAKAO_REST_API_KEY="${{ secrets.NEXT_PUBLIC_KAKAO_REST_API_KEY }}" \
-              --build-arg NEXT_PUBLIC_KAKAO_REDIRECT_URI="${{ secrets.NEXT_PUBLIC_KAKAO_REDIRECT_URI }}" \
-              --build-arg NEXT_PUBLIC_GOOGLE_CLIENT_ID="${{ secrets.NEXT_PUBLIC_GOOGLE_CLIENT_ID }}" \
-              --build-arg NEXT_PUBLIC_GOOGLE_REDIRECT_URI="${{ secrets.NEXT_PUBLIC_GOOGLE_REDIRECT_URI }}" \
               -t $ECR_REGISTRY/$SERVICE:latest .
             docker push $ECR_REGISTRY/$SERVICE:latest
           fi

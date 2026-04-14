@@ -27,7 +27,7 @@ spec:
           value: "development"
         # --- [Dynamic] ----------------------
         - name: BACKEND_URL
-          value: "http://k8s-default-mindlogb-953ab5f6e4-55da62fa7841e5a9.elb.ap-northeast-2.amazonaws.com:8080"
+          value: "http://k8s-default-mindlogb-9ff4d735b2-52558b5c9a55e478.elb.ap-northeast-2.amazonaws.com:8080"
         # -----------------------------------------------
 
         livenessProbe:

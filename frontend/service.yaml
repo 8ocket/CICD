@@ -10,4 +10,4 @@ spec:
     - protocol: TCP
       port: 80         
       targetPort: 3000 # 실제 파드(Next.js) 포트 
-  type: LoadBalancer
+  type: ClusterIP
