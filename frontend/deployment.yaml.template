@@ -1,14 +1,4 @@
 # /cicd/frontend/deployment.yaml.template
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: mindlog-be-sa
-  namespace: default
-spec:
-  serviceAccountName: mindlog-be-sa
-
----
-
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -24,6 +14,7 @@ spec:
       labels:
         app: mindlog-fe
     spec:
+      serviceAccountName: mindlog-be-sa
       containers:
       - name: frontend
         # --- [Dynamic] ----------------------
