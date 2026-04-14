@@ -1,4 +1,14 @@
 # /cicd/frontend/deployment.yaml.template
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: mindlog-fe-sa
+  namespace: default
+spec:
+  serviceAccountName: mindlog-fe-sa
+
+---
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -27,7 +37,7 @@ spec:
           value: "development"
         # --- [Dynamic] ----------------------
         - name: BACKEND_URL
-          value: "http://k8s-default-mindlogb-9ff4d735b2-52558b5c9a55e478.elb.ap-northeast-2.amazonaws.com:8080"
+          value: "http://:8080"
         # -----------------------------------------------
 
         livenessProbe:
