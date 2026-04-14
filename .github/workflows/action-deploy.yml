@@ -41,7 +41,7 @@ jobs:
               -t $ECR_REGISTRY/$SERVICE:latest .
             docker push $ECR_REGISTRY/$SERVICE:latest
           fi
-       - name: Trigger Deploy
+      - name: Trigger Deploy
          run: |
            curl -X POST \
              -H "Authorization: token ${{ secrets.CICD_TOKEN }}" \
