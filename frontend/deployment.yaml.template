@@ -2,10 +2,10 @@
 apiVersion: v1
 kind: ServiceAccount
 metadata:
-  name: mindlog-fe-sa
+  name: mindlog-be-sa
   namespace: default
 spec:
-  serviceAccountName: mindlog-fe-sa
+  serviceAccountName: mindlog-be-sa
 
 ---
 
