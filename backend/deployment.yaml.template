@@ -4,8 +4,7 @@ kind: ServiceAccount
 metadata:
   name: mindlog-be-sa
   namespace: default
-spec:
-  serviceAccountName: mindlog-be-sa
+
 
 ---
 apiVersion: apps/v1
