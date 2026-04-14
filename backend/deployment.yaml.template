@@ -84,6 +84,11 @@ spec:
             secretKeyRef:
               name: mindlog-be-secret
               key: KT_JWT_SECRET
+        - name: ENCRYPT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: ENCRYPT_SECRET_KEY
 
         # --- [Static] --------------------------------
         - name: SPRING_JPA_DATABASE_PLATFORM
