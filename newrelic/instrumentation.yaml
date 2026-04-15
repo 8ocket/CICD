@@ -24,6 +24,9 @@ spec:
   agent:
     language: java
     image: newrelic/newrelic-java-init:latest
+    env:
+      - name: NEW_RELIC_AGENT_PATH
+        value: "/newrelic/newrelic-agent.jar"
   podLabelSelector:
     matchLabels:
       app: mindlog-be
