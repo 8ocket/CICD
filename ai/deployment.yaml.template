@@ -34,14 +34,37 @@ spec:
           value: "mindlog-ai-prod"
 
         # --- [Static & DB Settings] ----------------
-        - name: DB_USER
-          value: "dbadmin"
-        - name: DB_NAME
-          value: "testdb"
+        - name: DB_PORT
+          value:5432
+        - name: DB_DATABASE
+          value: "mindlog_db"
+        - name: DB_USERNAME
+          value: "mindlog"
+        - name: DB_PASSWORD
+          value: "test1234"
         - name: AWS_REGION
           value: "ap-northeast-2"
         - name: DB_HOST
-          value: "${RDS_ENDPOINT}"
+          value: "localhost "
+        - name: USE_BEDROCK
+          value: "True"       
+#value: "${RDS_ENDPOINT}"
+        - name: OPENAI_MODEL_CHAT
+          value: "gpt-4o-mini"
+        - name: OPENAI_MODEL_IMAGE
+          value: "dall-e-3"
+        - name: OPENAI_MAX_TOKERNS
+          value: "2000"
+        - name: OPENAI_TEMPERATURE
+          value: "0.7"
+        - name: S3_BUCKET_NAME
+          value: "test-project-test-photos"
+        - name: PROPOSITION_ENCRYPT
+          value: "False"
+        - name: CELERY_BROKER_URL
+          value: "redis://redis:6379/0"
+        - name: CELERY_RESULT_BACKEND
+          value: "redis://redis:redis:6379/0"
 
         # --- [Dynamic URLs] ------------------------
         - name: REDIS_URL
@@ -58,13 +81,22 @@ spec:
           value: "mhcfgpsodiox"
         - name: BEDROCK_GUARDRAIL_VERSION
           value: "DRAFT"
+        - name: BEDROCK_GUARDRAIL_TRACE
+          value: "true"
+        - name: BEDROCK_EMBEDDING_MODEL_ID
+          value: "amazon.titan-embed-text-v2:0"
+        - name: EMBEDDING_DIMENSIONS
+          value: "1024"
+        - name: ALGORITHM
+          value: "HS256"
+        - name: ACCESS_TOKEN_EXPIRE_MINUTES
+          value: "60"
+        - name: ENABLE_CRISIS_DETECTION
+          value: "True"
+        - name: ENABLE_STREAMING
+          value: "True"
 
         # --- [Secrets] -----------------------------
-        - name: DB_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-ai-secret
-              key: DB_PASSWORD
         - name: AWS_ACCESS_KEY_ID
           valueFrom:
             secretKeyRef:
