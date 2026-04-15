@@ -50,8 +50,6 @@ spec:
               key: LICENSE_KEY
         - name: NEW_RELIC_APP_NAME
           value: "mindlog-be-prod"
-        - name: JAVA_TOOL_OPTIONS
-          value: "-javaagent:/newrelic/newrelic-agent.jar"
 
         # --- [Spring Profiles] -----------------------
         - name: SPRING_PROFILES_ACTIVE
