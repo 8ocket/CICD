@@ -30,7 +30,7 @@ spec:
             - 'sh'
             - '-c'
             - >
-              until nc -zv mindlog-ai-service 8000; do
+              until nc -zv mindlog-api 8000; do
                 sleep 5;
               done;
 
@@ -63,12 +63,28 @@ spec:
         # --- [Database & Redis Dynamic] --------------
         - name: DB_HOST
           value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: DB_HOST
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com:5432/mindlog_db?sslmode=require"
+          value: "jdbc:postgresql://$(DB_HOST):5432/mindlog_db?sslmode=require"
         - name: SPRING_DATA_REDIS_HOST
-          value: "master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com"
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: SPRING_DATA_REDIS_HOST
         - name: SPRING_DATA_REDIS_PORT
-          value: "6379"
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: REDIS_PORT
+        - name: SPRING_DATA_REDIS_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: REDIS_PASSWORD
 
         # --- [Credentials from Secret] ---------------
         - name: SPRING_DATASOURCE_USERNAME
@@ -172,7 +188,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 150
           periodSeconds: 10
           failureThreshold: 5
           timeoutSeconds: 5
@@ -180,7 +196,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 60
+          initialDelaySeconds: 120
           periodSeconds: 10
           failureThreshold: 5
           timeoutSeconds: 5
