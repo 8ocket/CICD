@@ -5,14 +5,12 @@ metadata:
   name: mindlog-be-sa
   namespace: default
 
-
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: mindlog-be-deployment
   namespace: default
-
 spec:
   replicas: 2
   selector:
@@ -25,7 +23,6 @@ spec:
       labels:
         app: mindlog-be
     spec:
-
       initContainers:
         - name: wait-for-ai-migration
           image: busybox:1.28
@@ -47,28 +44,33 @@ spec:
         env:
         # --- [New Relic] -----------------------------
         - name: NEW_RELIC_LICENSE_KEY
-          value: LICENSE_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: LICENSE_KEY
         - name: NEW_RELIC_APP_NAME
           value: "mindlog-be-prod"
 
         # --- [Spring Profiles] -----------------------
         - name: SPRING_PROFILES_ACTIVE
-          value: "dev"
+          value: "prod"
         - name: PROFILE
-          value: "dev"
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: PROFILE
 
-        # --- [Dynamic] -------------------------------
-        - name: DB_DEV_HOST
+        # --- [Database & Redis Dynamic] --------------
+        - name: DB_HOST
           value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com:5432/mindlog_db?sslmode=require"
-
         - name: SPRING_DATA_REDIS_HOST
-          value: "redis"
+          value: "master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com"
         - name: SPRING_DATA_REDIS_PORT
           value: "6379"
 
-        # --- [Secret] --------------------------------
+        # --- [Credentials from Secret] ---------------
         - name: SPRING_DATASOURCE_USERNAME
           valueFrom:
             secretKeyRef:
@@ -90,7 +92,66 @@ spec:
               name: mindlog-be-secret
               key: ENCRYPT_SECRET_KEY
 
-        # --- [Static] --------------------------------
+        # --- [Social Login] --------------------------
+        - name: KAKAO_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: KAKAO_CLIENT_ID
+        - name: KAKAO_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: KAKAO_CLIENT_SECRET
+        - name: KAKAO_PROD_REDIRECT_URI
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: KAKAO_PROD_REDIRECT_URI
+        - name: GOOGLE_CLIENT_ID
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: GOOGLE_CLIENT_ID
+        - name: GOOGLE_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: GOOGLE_CLIENT_SECRET
+        - name: GOOGLE_PROD_REDIRECT_URI
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: GOOGLE_PROD_REDIRECT_URI
+
+        # --- [AWS Storage & Payments] ----------------
+        - name: AWS_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: AWS_ACCESS_KEY
+        - name: AWS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: AWS_SECRET_KEY
+        - name: TOSS_CLIENT_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: TOSS_CLIENT_KEY
+        - name: TOSS_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: TOSS_SECRET_KEY
+        - name: SESSION_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: SESSION_BASE_URL
+
+        # --- [Static Assets] -------------------------
         - name: SPRING_JPA_DATABASE_PLATFORM
           value: "org.hibernate.dialect.PostgreSQLDialect"
         - name: AWS_S3_BUCKET_NAME
@@ -100,9 +161,9 @@ spec:
         - name: DEFAULT_PROFILE_IMAGE
           value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/profile/profile-default.png"
         - name: DEFAULT_PERSONA_IMAGE
-          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/persona-default.png"
         - name: TEST_PERSONA_IMAGE
-          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/toast.png"
+          value: "https://8ocket-backend-photos-prod.s3.ap-northeast-2.amazonaws.com/persona/persona-default.png"
 
         - name: MANAGEMENT_HEALTH_REDIS_ENABLED
           value: "false"
@@ -113,7 +174,7 @@ spec:
             port: 8080
           initialDelaySeconds: 60
           periodSeconds: 10
-          failureThreshold: 5 
+          failureThreshold: 5
           timeoutSeconds: 5
         readinessProbe:
           httpGet:
@@ -121,7 +182,7 @@ spec:
             port: 8080
           initialDelaySeconds: 40
           periodSeconds: 10
-          failureThreshold: 5 
+          failureThreshold: 5
           timeoutSeconds: 5
         resources:
           requests:
