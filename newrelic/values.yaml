@@ -1,23 +1,61 @@
 global:
   licenseKey: ""
-  customSecretName: "mindlog-be-secret"
+  customSecretName: "mindlog-be-secret"      # 준하님 시크릿 유지
   customSecretLicenseKey: "LICENSE_KEY"
   cluster: "mindlog"
 
 newrelic-infrastructure:
-  enabled: false
+  enabled: true
+  nriKubelet:
+    enabled: false
+  # 온디맨드 노드 강제 (추가)
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
 
 kube-state-metrics:
-  enabled: false
+  enabled: true
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
 
 logging:
-  enabled: false
+  enabled: true   # 로그 수집 활성화
+  fluentBit:
+    filter:
+      kubernetes:
+        include_namespaces:
+          - default
+    extraFilters: |
+      [FILTER]
+          Name    grep
+          Match   *
+          Exclude log DEBUG
+      [FILTER]
+          Name    grep
+          Match   *
+          Exclude log TRACE
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
 
 prometheus:
   enabled: false
 
+# 온디맨드 설정들 (상대방 요청 반영)
+nri-kube-events:
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
+
+nri-prometheus:
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
+
+webhook:
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
+
 k8s-agents-operator:
-  enabled: true   # 켜둬야 함
+  enabled: true
+  nodeSelector:
+    "karpenter.sh/capacity-type": "on-demand"
 
 k8s-agents-operator-instrumentation:
-  enabled: true   # 켜둬야 함
+  enabled: true
