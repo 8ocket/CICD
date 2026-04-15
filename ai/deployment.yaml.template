@@ -45,7 +45,7 @@ spec:
 
         # --- [Dynamic URLs] ------------------------
         - name: REDIS_URL
-          value: "redis://${REDIS_ENDPOINT}:6379/0"
+          value: "rediss://${REDIS_ENDPOINT}:6379/0"
         - name: DATABASE_URL
           value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):5432/$(DB_NAME)?sslmode=require"
 

@@ -173,6 +173,33 @@ spec:
         - name: MANAGEMENT_HEALTH_REDIS_ENABLED
           value: "false"
 
+#----------------added
+        - name: SESSION_MESSAGE_URI
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: SESSION_MESSAGE_URI
+        - name: SESSION_FINALIZE_URI
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: SESSION_FINALIZE_URI
+        - name: REPORT_URI
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: REPORT_URI
+        - name: SESSION_URI
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: SESSION_URI
+        - name: CORS_PROD_URL
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: CORS_PROD_URL
+
         livenessProbe:
           httpGet:
             path: /actuator/health

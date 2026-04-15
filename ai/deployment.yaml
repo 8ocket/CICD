@@ -45,7 +45,7 @@ spec:
 
         # --- [Dynamic URLs] ------------------------
         - name: REDIS_URL
-          value: "redis://master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com:6379/0"
+          value: "rediss://master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com:6379/0"
         - name: DATABASE_URL
           value: "postgresql://$(DB_USER):$(DB_PASSWORD)@$(DB_HOST):5432/$(DB_NAME)?sslmode=require"
 
