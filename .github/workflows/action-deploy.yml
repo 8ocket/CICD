@@ -30,14 +30,20 @@ jobs:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           SERVICE: ${{ inputs.service_name }}
         run: |
-          
           if [ -f "Makefile" ]; then
             make ecr-build ECR_REPO=$SERVICE
             docker tag $SERVICE:latest $ECR_REGISTRY/$SERVICE:latest
             docker push $ECR_REGISTRY/$SERVICE:latest
-          
           else
             docker build \
               -t $ECR_REGISTRY/$SERVICE:latest .
             docker push $ECR_REGISTRY/$SERVICE:latest
           fi
+
+      - name: Trigger Deploy
+        run: |
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.CICD_TOKEN }}" \
+            -H "Accept: application/vnd.github.v3+json" \
+            https://api.github.com/repos/8ocket/cicd/dispatches \
+            -d '{"event_type":"deploy"}'

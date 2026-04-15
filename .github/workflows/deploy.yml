@@ -1,0 +1,20 @@
+name: Deploy
+
+on:
+  repository_dispatch:
+    types: [deploy]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: self-hosted
+    steps:
+      - name: Execute deploy.sh via SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.BASTION_HOST }}
+          username: ${{ secrets.BASTION_USER }}
+          key: ${{ secrets.BASTION_SSH_KEY }}
+          script: |
+            cd ~/cicd
+            ./deploy.sh
