@@ -30,14 +30,14 @@ spec:
             - 'sh'
             - '-c'
             - >
-              until nc -zv mindlog-api 8000; do
+              until nc -zv mindlog-ai-service 8000; do
                 sleep 5;
               done;
 
       serviceAccountName: mindlog-be-sa
       containers:
       - name: backend
-        image: ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
+        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-be:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -62,29 +62,13 @@ spec:
 
         # --- [Database & Redis Dynamic] --------------
         - name: DB_HOST
-          value: "${RDS_ENDPOINT}"
-        - name: DB_HOST
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: DB_HOST
+          value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:postgresql://$(DB_HOST):5432/mindlog_db?sslmode=require"
+          value: "jdbc:postgresql://rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com:5432/mindlog_db?sslmode=require"
         - name: SPRING_DATA_REDIS_HOST
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: SPRING_DATA_REDIS_HOST
+          value: "master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com"
         - name: SPRING_DATA_REDIS_PORT
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: REDIS_PORT
-        - name: SPRING_DATA_REDIS_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: mindlog-be-secret
-              key: REDIS_PASSWORD
+          value: "6379"
 
         # --- [Credentials from Secret] ---------------
         - name: SPRING_DATASOURCE_USERNAME
@@ -166,6 +150,11 @@ spec:
             secretKeyRef:
               name: mindlog-be-secret
               key: SESSION_BASE_URL
+        - name: TOSS_BASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-be-secret
+              key: TOSS_BASE_URL
 
         # --- [Static Assets] -------------------------
         - name: SPRING_JPA_DATABASE_PLATFORM
@@ -188,7 +177,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 150
+          initialDelaySeconds: 60
           periodSeconds: 10
           failureThreshold: 5
           timeoutSeconds: 5
@@ -196,14 +185,7 @@ spec:
           httpGet:
             path: /actuator/health
             port: 8080
-          initialDelaySeconds: 120
+          initialDelaySeconds: 60
           periodSeconds: 10
           failureThreshold: 5
           timeoutSeconds: 5
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "256Mi"
-          limits:
-            cpu: "1000m"
-            memory: "1024Mi"
