@@ -1,7 +1,7 @@
 global:
   licenseKey: ""
-  customSecretName: "newrelic-license-key"
-  customSecretLicenseKey: "licenseKey"
+  customSecretName: "mindlog-be-secret"
+  customSecretLicenseKey: "LICENSE_KEY"
   cluster: "mindlog"
 
 newrelic-infrastructure:
