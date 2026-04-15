@@ -5,15 +5,20 @@ on:
     types: [deploy]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Checkout CICD repo
-        uses: actions/checkout@v4
-
-      - name: Execute deploy.sh
+      - name: Execute Deployment on Local Path
         run: |
+          cd ~/cicd
+          git fetch origin
+          git reset --hard origin/main
+          chmod +x ./setup-secrets.sh
           chmod +x ./deploy.sh
           ./deploy.sh
+
 
