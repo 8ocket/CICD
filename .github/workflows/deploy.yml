@@ -9,12 +9,11 @@ jobs:
   deploy:
     runs-on: self-hosted
     steps:
-      - name: Execute deploy.sh via SSH
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.BASTION_HOST }}
-          username: ${{ secrets.BASTION_USER }}
-          key: ${{ secrets.BASTION_SSH_KEY }}
-          script: |
-            cd ~/cicd
-            ./deploy.sh
+      - name: Checkout CICD repo
+        uses: actions/checkout@v4
+
+      - name: Execute deploy.sh
+        run: |
+          chmod +x ./deploy.sh
+          ./deploy.sh
+
