@@ -62,12 +62,23 @@ spec:
 
         # --- [Database & Redis Dynamic] --------------
         - name: DB_HOST
-          value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
+          value: "localhost"
+          #value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
+        - name: DB_DATABASE
+          value: "mindlog_db"
+        - name: DB_PASSWORD
+          value: "test1234"
+        - name: DB_PORT
+          value: "5432"
+        - name: DB_USERNAME
+          value: "mindlog"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:postgresql://rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com:5432/mindlog_db?sslmode=require"
         - name: SPRING_DATA_REDIS_HOST
           value: "master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com"
-        - name: SPRING_DATA_REDIS_PORT
+        - name: REDIS_HOST
+          value: "localhost"
+        - name: REDIS_PORT
           value: "6379"
 
         # --- [Credentials from Secret] ---------------
