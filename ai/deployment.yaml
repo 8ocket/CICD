@@ -110,7 +110,7 @@ spec:
 
         # --- [Dynamic URLs] ------------------------
         - name: REDIS_URL
-          value: "rediss://None:6379/0"
+          value: "rediss://master.valkey-prod-8ocket.q6r4ah.apn2.cache.amazonaws.com:6379/0"
         - name: DATABASE_URL
           value: "postgresql://mindlog:test1234@$(DB_HOST):5432/mindlog_db?sslmode=require"
 
