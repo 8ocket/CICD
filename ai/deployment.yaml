@@ -35,6 +35,21 @@ spec:
             secretKeyRef:
               name: mindlog-ai-secret
               key: SECRET_KEY
+        - name: AWS_ACCESS_KEY_ID
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: AWS_ACCESS_KEY_ID
+        - name: AWS_SECRET_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: AWS_SECRET_ACCESS_KEY
+        - name: OPENAI_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: OPENAI_API_KEY
 
       containers:
       - name: ai-api
