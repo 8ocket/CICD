@@ -16,6 +16,21 @@ spec:
       labels:
         app: mindlog-ai
     spec:
+      initContainers:
+      - name: db-migration
+        image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
+        imagePullPolicy: Always
+        command: ["alembic", "upgrade",  "head"]
+
+        env:
+        - name: DB_HOST
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: DB_HOST
+        - name: DATABASE_URL
+          value: "postgresql://mindlog:test1234@$(DB_HOST):5432/mindlog_db?sslmode=require"
+
       containers:
       - name: ai-api
         image: ${ACCOUNT_ID}.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
@@ -124,7 +139,10 @@ spec:
         - name: SPRING_DATA_REDIS_SSL_ENABLED
           value: "TRUE"
         - name: CONTENT_ENCRYPTION_KEY
-          value: ""
+          valueFrom:
+            secretKeyRef:
+              name: mindlog-ai-secret
+              key: CONTENT_ENCRYPTION_KEY
         - name: SONAR_TOEKN
           value: ""
 #----------------------------------------------------      
