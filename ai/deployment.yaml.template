@@ -120,6 +120,10 @@ spec:
  # ------------ [added] -----------------------------
         - name: SPRING_DATA_REDIS_SSL_ENABLED
           value: "TRUE"
+        - name: CONTENT_ENCRYPTION_KEY
+          value: ""
+        - name: SONAR_TOEKN
+          value: ""
 #----------------------------------------------------      
         livenessProbe:
           httpGet:
