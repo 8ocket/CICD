@@ -58,7 +58,7 @@ spec:
         - name: OPENAI_TEMPERATURE
           value: "0.7"
         - name: S3_BUCKET_NAME
-          value: "test-project-test-photos"
+          value: "8ocket-backend-photos-prod"
         - name: PROPOSITION_ENCRYPT
           value: "False"
         - name: CELERY_BROKER_URL
