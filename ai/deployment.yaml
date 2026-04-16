@@ -45,7 +45,7 @@ spec:
         - name: AWS_REGION
           value: "ap-northeast-2"
         - name: DB_HOST
-          value: "localhost"
+          value: "{RDS_ENDPOINT}"
         - name: USE_BEDROCK
           value: "True"       
 #value: "rds-prod-8ocket.c5g8ga08stkl.ap-northeast-2.rds.amazonaws.com"
