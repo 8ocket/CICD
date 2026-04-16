@@ -20,7 +20,11 @@ spec:
       - name: db-migration
         image: 854439979580.dkr.ecr.ap-northeast-2.amazonaws.com/mindlog-ai:latest
         imagePullPolicy: Always
-        command: ["sh", "-c", "alembic stamp head"]
+        command: 
+        - "sh"
+        - "-c"
+        - |
+          alembic upgrade head || alembic stamp head
 
         env:
         - name: DB_HOST
