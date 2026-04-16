@@ -210,6 +210,8 @@ spec:
             secretKeyRef:
               name: mindlog-be-secret
               key: CORS_PROD_URL
+        - name: SPRING_DATA_REDIS_SSL_ENABLED
+          value: "TRUE"
 
         livenessProbe:
           httpGet:
