@@ -35,7 +35,7 @@ spec:
 
         # --- [Static & DB Settings] ----------------
         - name: DB_PORT
-          value:5432
+          value: "5432"
         - name: DB_DATABASE
           value: "mindlog_db"
         - name: DB_USERNAME
