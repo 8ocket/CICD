@@ -117,7 +117,10 @@ spec:
             secretKeyRef:
               name: mindlog-ai-secret
               key: OPENAI_API_KEY
-
+ # ------------ [added] -----------------------------
+        - name: SPRING_DATA_REDIS_SSL_ENABLED
+          value: "TRUE"
+#----------------------------------------------------      
         livenessProbe:
           httpGet:
             path: /health
